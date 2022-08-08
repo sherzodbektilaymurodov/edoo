@@ -34,7 +34,7 @@ public class User extends AbsEntity implements UserDetails {
     private Date birthDate;
 
     private String email;
-    private Integer chat_id;
+    private Long chatId;
 
     @ManyToMany
     @JoinTable(name = "user_role",
@@ -42,6 +42,13 @@ public class User extends AbsEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id") )
     private Set<Role> roles;
 
+    public User(String firstName, String lastName, String phoneNumber, Long chatId, Boolean isChecked) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.chatId = chatId;
+        this.isChecked = isChecked;
+    }
 
     private Boolean isChecked;
     @Override
