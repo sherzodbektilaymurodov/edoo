@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,19 +27,19 @@ public class AuthController {
     AuthRepository authRepository;
     @PostMapping("/register")
     public HttpEntity<?> register(@Valid @RequestBody ReqRegister reqRegister){
-        ApiResponse register = authService.register(reqRegister);
+        ApiResponse register = authService.register(reqRegister, new User());
         return ResponseEntity.status(register.isSuccess()?200:409).body(register);
     }
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteUser(@PathVariable UUID id){
-        ApiResponse apiResponce = authService.deleteUser(id);
-        return ResponseEntity.ok(apiResponce);
+        ApiResponse apiResponse = authService.deleteUser(id);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping("/{id}")
     public HttpEntity<?> editGroup(@PathVariable UUID id, @RequestBody ReqRegister reqRegister){
-        ApiResponse apiResponce = authService.editUser(id, reqRegister);
-        return ResponseEntity.status(apiResponce.isSuccess()?200:409).body(apiResponce);
+        ApiResponse apiResponse = authService.register(reqRegister, authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser")));
+        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
 //    @GetMapping("/getPage")

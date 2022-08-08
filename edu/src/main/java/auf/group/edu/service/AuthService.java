@@ -1,5 +1,6 @@
 package auf.group.edu.service;
 
+import auf.group.edu.bot.BotSettings;
 import auf.group.edu.entity.User;
 import auf.group.edu.entity.enums.RoleName;
 import auf.group.edu.payload.ApiResponse;
@@ -22,68 +23,23 @@ public class AuthService implements UserDetailsService {
     AuthRepository authRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    BotSettings botSettings;
 
-    public ApiResponse register(ReqRegister reqRegister) {
+    public ApiResponse register(ReqRegister reqRegister, User user) {
         boolean existsByPhoneNumber = authRepository.existsByPhoneNumber(reqRegister.getPhoneNumber());
         if (!existsByPhoneNumber) {
-            User user = new User();
             user.setFirstName(reqRegister.getFirstName());
             user.setPhoneNumber(reqRegister.getPhoneNumber());
-            if (reqRegister.getLastName() == null) {
-                user.setLastName(null);
-            } else {
-                user.setLastName(reqRegister.getLastName());
-            }
-            if (reqRegister.getBirthDate() == null) {
-                user.setBirthDate(null);
-            } else {
-                user.setBirthDate(reqRegister.getBirthDate());
-            }
-            if (reqRegister.getEmail() == null) {
-                user.setEmail(null);
-            } else {
-                user.setEmail(reqRegister.getEmail());
-            }
-            if (reqRegister.getIsChecked() == null) {
-                user.setIsChecked(null);
-            } else {
-                user.setIsChecked(reqRegister.getIsChecked());
-            }
+            user.setLastName(reqRegister.getLastName() != null ? reqRegister.getLastName() : null);
+            user.setBirthDate(reqRegister.getBirthDate() != null ? reqRegister.getBirthDate() : null);
+            user.setEmail(reqRegister.getEmail() != null ? reqRegister.getEmail() : null);
+            user.setIsChecked(reqRegister.getIsChecked() != null ? reqRegister.getIsChecked() : false);
             user.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_USER)));
             authRepository.save(user);
             return new ApiResponse("saqlandi", true);
         }
         return new ApiResponse("tel number bor", false);
-    }
-
-    public ApiResponse editUser(UUID id, ReqRegister reqRegister) {
-        boolean b = authRepository.existsByIdNot(id);
-        if (!b) {
-            User user = new User();
-            user.setFirstName(reqRegister.getFirstName());
-            user.setPhoneNumber(reqRegister.getPhoneNumber());
-            user.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_USER)));
-            if (reqRegister.getLastName() != null) {
-                user.setLastName(null);
-            } else {
-                user.setLastName(reqRegister.getLastName());
-            }
-            user.setBirthDate(reqRegister.getBirthDate());
-            if (reqRegister.getBirthDate() != null) {
-                user.setBirthDate(null);
-            } else {
-                user.setBirthDate(reqRegister.getBirthDate());
-            }
-            if (reqRegister.getEmail() != null) {
-                user.setEmail(null);
-            } else {
-                user.setEmail(reqRegister.getEmail());
-            }
-            authRepository.save(user);
-            return new ApiResponse("Edit complete", true);
-        } else {
-            return new ApiResponse("user not found", false);
-        }
     }
 
     public ApiResponse editCheck(UUID id, ReqRegister reqRegister) {
@@ -113,6 +69,7 @@ public class AuthService implements UserDetailsService {
         Optional<User> byId = authRepository.findById(id);
         if (byId.isPresent()) {
             authRepository.deleteById(id);
+
             return new ApiResponse("Delete complete", true);
         }
         return new ApiResponse("user not found", false);
