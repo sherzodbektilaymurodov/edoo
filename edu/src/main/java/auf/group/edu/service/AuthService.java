@@ -39,7 +39,11 @@ public class AuthService implements UserDetailsService {
             user.setEmail(reqRegister.getEmail());
             user.setIsChecked(reqRegister.getIsChecked() != null ? reqRegister.getIsChecked() : false);
             user.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_USER)));
-            authRepository.save(user);
+            try {
+                authRepository.save(user);
+            }catch (Exception e) {
+                authRepository.save(user);
+            }
             return new ApiResponse("Foydalanuvchi saqlandi", true);
         }
         return new ApiResponse("tel number bor", false);
