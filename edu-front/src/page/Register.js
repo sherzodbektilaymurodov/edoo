@@ -18,6 +18,7 @@ class Register extends Component {
 
         console.log(users)
         alert("ishlasinda")
+        alert("ishlasinda")
         const openModal = (item) => {
             dispatch({
                 type: 'updateState',
