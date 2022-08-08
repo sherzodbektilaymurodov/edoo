@@ -22,7 +22,7 @@ import java.util.Set;
 @Entity(name = "users")
 public class User extends AbsEntity implements UserDetails {
     @Column(nullable = false)
-    @NotNull(message = "name bo'lishi shart")
+    @NotNull(message = "name bolishi shart")
     private String firstName;
 
     private String lastName;
