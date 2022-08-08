@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class AuthController {
     }
 
     @PutMapping("/{id}")
-    public HttpEntity<?> editGroup(@PathVariable UUID id, @RequestBody ReqRegister reqRegister){
+    public HttpEntity<?> editUser(@PathVariable UUID id, @RequestBody ReqRegister reqRegister){
         ApiResponse apiResponce = authService.editUser(id, reqRegister);
         return ResponseEntity.status(apiResponce.isSuccess()?200:409).body(apiResponce);
     }
@@ -47,7 +48,7 @@ public class AuthController {
 //        return ResponseEntity.ok(authService.getUsers(page, size));
 //    }
     @GetMapping("/{id}")
-    public ResRegister getOneUser(User user){
+    public ResRegister getOneUser(User user) throws ParseException {
         return  authService.getOneUser(user);
     }
 

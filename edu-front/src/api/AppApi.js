@@ -24,9 +24,9 @@ export const addUser = (data) => {
     return HttpClient.doPost(api.register, data);
 }
 export const updateUser = (data) => {
-    return HttpClient.doPut(api.register + "/" + data.id, data);
+    return HttpClient.doPut(api.auth + "/" + data.id, data);
 }
 export const delUser = (data) => {
-    console.log(data)
-    return HttpClient.doDelete(api.register + "/" + data.id);
+    console.log(data.id)
+    return HttpClient.doDelete(api.auth + "/" + data.id);
 }

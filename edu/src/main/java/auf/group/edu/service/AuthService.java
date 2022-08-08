@@ -8,11 +8,14 @@ import auf.group.edu.payload.ResRegister;
 import auf.group.edu.repository.AuthRepository;
 import auf.group.edu.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,6 +42,10 @@ public class AuthService implements UserDetailsService {
             } else {
                 user.setBirthDate(reqRegister.getBirthDate());
             }
+
+            //TODO shunga uxsahs buladi
+            user.setEmail(reqRegister.getEmail() == null ? null : reqRegister.getEmail());
+
             if (reqRegister.getEmail() == null) {
                 user.setEmail(null);
             } else {
@@ -58,27 +65,29 @@ public class AuthService implements UserDetailsService {
 
     public ApiResponse editUser(UUID id, ReqRegister reqRegister) {
         boolean b = authRepository.existsByIdNot(id);
-        if (!b) {
-            User user = new User();
+        if (b) {
+            User user = authRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("getUser"));
             user.setFirstName(reqRegister.getFirstName());
             user.setPhoneNumber(reqRegister.getPhoneNumber());
-            user.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_USER)));
-            if (reqRegister.getLastName() != null) {
+            if (reqRegister.getLastName() == null) {
                 user.setLastName(null);
             } else {
                 user.setLastName(reqRegister.getLastName());
             }
-            user.setBirthDate(reqRegister.getBirthDate());
-            if (reqRegister.getBirthDate() != null) {
+            if (reqRegister.getBirthDate() == null) {
                 user.setBirthDate(null);
             } else {
                 user.setBirthDate(reqRegister.getBirthDate());
             }
-            if (reqRegister.getEmail() != null) {
-                user.setEmail(null);
-            } else {
-                user.setEmail(reqRegister.getEmail());
-            }
+
+            //TODO shunga uxsahs buladi
+            user.setEmail(reqRegister.getEmail() == null ? null : reqRegister.getEmail());
+//            if (reqRegister.getIsChecked() == null) {
+//                user.setIsChecked();
+//            } else {
+//                user.setIsChecked(reqRegister.getIsChecked());
+//            }
+            user.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_USER)));
             authRepository.save(user);
             return new ApiResponse("Edit complete", true);
         } else {
@@ -98,15 +107,24 @@ public class AuthService implements UserDetailsService {
     }
 
     public ResRegister getOneUser(User user) {
-        return new ResRegister(
-                user.getFirstName(),
-                user.getLastName(),
-                user.getPhoneNumber(),
-                user.getBirthDate(),
-                user.getRoles(),
-                user.getEmail(),
-                user.getIsChecked()
-        );
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = user.getBirthDate();
+        try {
+
+
+            return new ResRegister(
+                    user.getId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getPhoneNumber(),
+                    dateFormat.parse(date.getYear() + "-" + date.getMonth() + "-" + date.getDate()),
+                    user.getRoles(),
+                    user.getEmail(),
+                    user.getIsChecked()
+            );
+        }catch (Exception e) {
+            return null;
+        }
     }
 
     public ApiResponse deleteUser(UUID id) {

@@ -89,10 +89,9 @@ export const saveUser = (payload) => (dispatch) => {
             type: 'updateState'
         })
         dispatch(getUser())
-        toast.success("Successfully saved subject")
-        toast.success("Successfully saved subject")
+        toast.success("Foydalanuvchi saqlandi")
     }).catch(err => {
-        toast.error("Error saving subject!");
+        toast.error("Saqlashda xatolik");
     })
 }
 export const deleteUser = (payload) => (dispatch) => {
@@ -112,8 +111,8 @@ export const deleteUser = (payload) => (dispatch) => {
         dispatch({
             type: types.REQUEST_SUCCESS
         })
-        toast.success("Successfully deleted subject")
+        toast.success("O'chirildi")
     }).catch(err => {
-        toast.error("Error deleting subject!");
+        toast.error("O'chirishda xatolik");
     })
 }

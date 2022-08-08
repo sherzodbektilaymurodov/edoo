@@ -44,6 +44,6 @@ public class SubjectController {
     @ResponseBody
     public HttpEntity<?> deleteSubject(@PathVariable Integer id){
         ApiResponse apiResponse = subjectService.deleteSubject(id);
-        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
+        return ResponseEntity.ok(apiResponse);
     }
 }

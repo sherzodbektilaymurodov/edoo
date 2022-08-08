@@ -10,12 +10,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.Set;
+import java.util.UUID;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResRegister {
+    private UUID id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
