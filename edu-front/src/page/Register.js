@@ -17,6 +17,7 @@ class Register extends Component {
         const { users, showModal, deleteModal, currentItem, dispatch} = this.props;
 
         console.log(users)
+        alert("ishlasinda")
         const openModal = (item) => {
             dispatch({
                 type: 'updateState',
