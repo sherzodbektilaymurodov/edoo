@@ -90,6 +90,7 @@ export const saveUser = (payload) => (dispatch) => {
         })
         dispatch(getUser())
         toast.success("Successfully saved subject")
+        toast.success("Successfully saved subject")
     }).catch(err => {
         toast.error("Error saving subject!");
     })

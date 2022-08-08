@@ -15,9 +15,7 @@ class Register extends Component {
 
     render() {
         const { users, showModal, deleteModal, currentItem, dispatch} = this.props;
-
         console.log(users)
-
         const openModal = (item) => {
             dispatch({
                 type: 'updateState',
@@ -47,7 +45,7 @@ class Register extends Component {
             let roles = document.getElementById("roles").value;
             let email = document.getElementById("email").value;
             // let isChecked = document.getElementById("isChecked").value;
-
+            console.log("qwertyuio")
             let id = currentItem.id ? currentItem.id : null;
             if (currentItem.id) {
                 obj = {id, firstName, phoneNumber, lastName, birthDate, roles, email}
