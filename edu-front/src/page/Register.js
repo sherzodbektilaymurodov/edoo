@@ -159,7 +159,7 @@ class Register extends Component {
                 </Modal>
                 <Modal isOpen={deleteModal}>
                     <ModalHeader>Foydalanuvchini o'chirish</ModalHeader>
-                    <ModalBody>{" shu foydalanuvchini o'chirasizmi" }</ModalBody>
+                    <ModalBody>{currentItem.id+" shu foydalanuvchini o'chirasizmi" }</ModalBody>
                     <ModalFooter>
                         <button className="custom-btn btn-11" onClick={() => openDeleteModal('')}>Orqaga</button>
                         <button className="custom-btn btn-12" onClick={deleteUsers}>O'chirish</button>

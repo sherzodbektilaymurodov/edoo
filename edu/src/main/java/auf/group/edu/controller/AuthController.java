@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,32 +37,32 @@ public class AuthController {
     }
 
     @PutMapping("/{id}")
-    public HttpEntity<?> editUser(@PathVariable UUID id, @RequestBody ReqRegister reqRegister){
-        ApiResponse apiResponce = authService.editUser(id, reqRegister);
-        return ResponseEntity.status(apiResponce.isSuccess()?200:409).body(apiResponce);
+    public HttpEntity<?> editGroup(@PathVariable UUID id, @RequestBody ReqRegister reqRegister){
+        ApiResponse apiResponse = authService.register(reqRegister, authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser")));
+        return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
-//    @GetMapping("/getPage")
+    //    @GetMapping("/getPage")
 //    public HttpEntity<?> getGroup(@RequestParam (value = "page", defaultValue = AppConstant.APP_DEFAULT_PAGE) int page,
 //                                  @RequestParam (value = "size", defaultValue = AppConstant.APP_DEFAULT_SIZE) int size){
 //        return ResponseEntity.ok(authService.getUsers(page, size));
 //    }
     @GetMapping("/{id}")
-    public ResRegister getOneUser(User user) throws ParseException {
+    public ResRegister getOneUser(User user){
         return  authService.getOneUser(user);
     }
 
 
-//    @GetMapping
+    //    @GetMapping
 //    public HttpEntity<?> getUsers(){
 //        return (HttpEntity<?>) authService.getUserList();
 //    }
-@GetMapping("/register/list")
-@ResponseBody
-public HttpEntity<?> getList(){
-    List<User> all = authRepository.findAll();
-    return ResponseEntity.ok(all);
-}
+    @GetMapping("/register/list")
+    @ResponseBody
+    public HttpEntity<?> getList(){
+        List<User> all = authRepository.findAll();
+        return ResponseEntity.ok(all);
+    }
 
 
     @GetMapping("/isChecked/{isTrue}")

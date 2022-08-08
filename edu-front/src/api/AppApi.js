@@ -19,7 +19,6 @@ export const delSubject = (data) => {
 export const getUsers = () => {
     return HttpClient.doGet(api.register+"/list");
 }
-
 export const addUser = (data) => {
     return HttpClient.doPost(api.register, data);
 }

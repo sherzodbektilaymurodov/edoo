@@ -1,5 +1,6 @@
 package auf.group.edu.service;
 
+import auf.group.edu.bot.BotSettings;
 import auf.group.edu.entity.User;
 import auf.group.edu.entity.enums.RoleName;
 import auf.group.edu.payload.ApiResponse;
@@ -31,16 +32,15 @@ public class AuthService implements UserDetailsService {
     public ApiResponse register(ReqRegister reqRegister, User user) {
         boolean existsByPhoneNumber = authRepository.existsByPhoneNumber(reqRegister.getPhoneNumber());
         if (!existsByPhoneNumber) {
-            User user = new User();
             user.setFirstName(reqRegister.getFirstName());
             user.setPhoneNumber(reqRegister.getPhoneNumber());
-            user.setLastName(reqRegister.getLastName() != null ? reqRegister.getLastName() : null);
-            user.setBirthDate(reqRegister.getBirthDate() != null ? reqRegister.getBirthDate() : null);
-            user.setEmail(reqRegister.getEmail() != null ? reqRegister.getEmail() : null);
+            user.setLastName(reqRegister.getLastName() );
+            user.setBirthDate(reqRegister.getBirthDate());
+            user.setEmail(reqRegister.getEmail());
             user.setIsChecked(reqRegister.getIsChecked() != null ? reqRegister.getIsChecked() : false);
             user.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_USER)));
             authRepository.save(user);
-            return new ApiResponse("saqlandi", true);
+            return new ApiResponse("Foydalanuvchi saqlandi", true);
         }
         return new ApiResponse("tel number bor", false);
     }
