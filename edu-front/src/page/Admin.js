@@ -2,18 +2,18 @@ import React, {Component} from 'react';
 
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader, Table,} from "reactstrap";
 import {
-    deleteUser, getUser, saveUser
+    deleteUser, getAdmin, getUser, saveAdmin
 } from "../redux/actions/AppAction";
 import {connect} from "react-redux";
 import './css/style.css';
 
-class Register extends Component {
+class Admin extends Component {
     componentDidMount() {
-        this.props.dispatch(getUser())
+        this.props.dispatch(getAdmin())
     }
 
     render() {
-        const {users, showModal, deleteModal, currentItem, dispatch} = this.props;
+        const {admins, showModal, deleteModal, currentItem, dispatch} = this.props;
         const openModal = (item) => {
             dispatch({
                 type: 'updateState',
@@ -44,12 +44,8 @@ class Register extends Component {
             let email = document.getElementById("email").value;
             console.log(roles)
             let [roleList] = [1];
-            if (roles === "1" ) {
-                roleList = [1];
-            }else if (roles === "2") {
+            if (roles === "2" ) {
                 roleList = [1, 2]
-            } else {
-                roleList = [1, 2, 3]
             }
             console.log(roleList)
             // let isChecked = document.getElementById("isChecked").value;
@@ -62,14 +58,14 @@ class Register extends Component {
             console.log(obj)
             this.props.dispatch(saveUser(obj))
         }
-        const deleteUsers = (e) => {
+        const deleteUsers = () => {
             this.props.dispatch(deleteUser(currentItem))
         }
 
 
         return (
             <div className="container">
-                <h2 className="text-center">Foydalanuvchilar</h2>
+                <h2 className="text-center">O'qituvchilar</h2>
 
                 <button className="custom-btn btn-2" onClick={() => openModal('')}>Qo'shish+</button>
                 <Table>
@@ -79,14 +75,14 @@ class Register extends Component {
                         <th>Ism</th>
                         <th>Familiya</th>
                         <th>Telefon raqam</th>
-                        <th>Tug'ilgaan yili</th>
+                        <th>Tug'ilgan yili</th>
                         <th>Huquqi</th>
                         <th>Email</th>
                         <th colSpan='2'>Action</th>
                     </tr>
                     </thead>
-                    {users.length !== 0 ?
-                        users.map((item, i) =>
+                    {admins.length !== 0 ?
+                        admins.map((item, i) =>
                             <tbody>
                             <tr>
                                 <td>{i + 1}</td>
@@ -98,7 +94,7 @@ class Register extends Component {
                                     month: '2-digit',
                                     day: '2-digit'
                                 }).format(item.date)}</td>
-                                <td>{item.role}</td>
+                                <td>{item.roles}</td>
                                 <td>{item.email}</td>
                                 <td><Button color="warning" outline onClick={() => openModal(item)}>Tahrirlash</Button>
                                 </td>
@@ -111,7 +107,7 @@ class Register extends Component {
                     }
                 </Table>
                 <Modal isOpen={showModal}>
-                    <ModalHeader>{currentItem.id ? "Foydalanuvchini tahrirlash" : "Foydalanuvchi qo'shish"}</ModalHeader>
+                    <ModalHeader>{currentItem.id ? "O'qituvchini tahrirlash" : "O'qituvchi qo'shish"}</ModalHeader>
                     <ModalBody>
                         <div className="group">
                             <input type="text" required id="firstName" name="firstName"
@@ -144,10 +140,7 @@ class Register extends Component {
                         <div className="group">
                             <select className="form-select" aria-label="Default select example" name="roles"
                                     id="roles">
-                                <option value="0" selected={true}>Huquqini tanlang</option>
-                                <option value="1">O'quvchi</option>
-                                <option value="2">O'qituvchi</option>
-                                <option value="3">Admin</option>
+                                <option value="3">O'qituvchi</option>
                             </select>
                         </div>
                         <div className="group">
@@ -172,8 +165,8 @@ class Register extends Component {
                     </ModalFooter>
                 </Modal>
                 <Modal isOpen={deleteModal}>
-                    <ModalHeader>Foydalanuvchini o'chirish</ModalHeader>
-                    <ModalBody>{currentItem + " shu foydalanuvchini o'chirasizmi"}</ModalBody>
+                    <ModalHeader>O'qituvchini o'chirish</ModalHeader>
+                    <ModalBody>{currentItem + " shu o'qituvchini o'chirasizmi"}</ModalBody>
                     <ModalFooter>
                         <button className="custom-btn btn-11" onClick={() => openDeleteModal('')}>Orqaga</button>
                         <button className="custom-btn btn-12" onClick={() => deleteUsers()}>O'chirish</button>
@@ -185,9 +178,9 @@ class Register extends Component {
     }
 }
 
-Register.propTypes = {};
+Admin.propTypes = {};
 
 export default connect(
-    ({app: {users, showModal, deleteModal, currentItem}}) =>
-        ({users, showModal, deleteModal, currentItem}))
-(Register);
+    ({app: {admins, showModal, deleteModal, currentItem}}) =>
+        ({admins, showModal, deleteModal, currentItem}))
+(Admin);

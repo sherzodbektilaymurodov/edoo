@@ -18,8 +18,6 @@ class NotFound extends Component {
                          </a>
                          <a class="bg_links logo"></a>
                   </div>
-
-
                   {/*<nav>*/}
                   {/*       <div class="menu">*/}
                   {/*              <p class="website_name">LOGO</p>*/}

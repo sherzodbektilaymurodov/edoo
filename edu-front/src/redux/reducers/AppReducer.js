@@ -7,8 +7,8 @@ const initState = {
     currentItem: "",
     subjects: [],
     users: [],
-
-
+    pupils: [],
+    teachers: [],
 }
 const reducers = {
 
@@ -16,8 +16,15 @@ const reducers = {
         console.log(payload)
         state.subjects = payload.payload;
     },
+    [types.GET_PUPIL_LIST](state, payload) {
+        console.log(payload.payload)
+        state.pupils = payload.payload;
+    },
     [types.GET_USER_LIST](state, payload) {
         state.users = payload.payload;
+    },
+    [types.GET_TEACHER_LIST](state, payload) {
+        state.teachers = payload.payload;
     },
     [types.REQUEST_SUCCESS](state, payload) {
         state.showModal = false

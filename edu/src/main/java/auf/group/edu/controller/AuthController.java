@@ -1,5 +1,6 @@
 package auf.group.edu.controller;
 
+import auf.group.edu.entity.Role;
 import auf.group.edu.entity.Subject;
 import auf.group.edu.entity.User;
 import auf.group.edu.payload.ApiResponse;
@@ -38,7 +39,7 @@ public class AuthController {
 
     @PutMapping("/{id}")
     public HttpEntity<?> editGroup(@PathVariable UUID id, @RequestBody ReqRegister reqRegister){
-        ApiResponse apiResponse = authService.register(reqRegister, authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser")));
+        ApiResponse apiResponse = authService.editUser(reqRegister, authRepository.findById(id).orElseThrow(() -> new ResourceAccessException("getUser")));
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
@@ -58,13 +59,24 @@ public class AuthController {
 //        return (HttpEntity<?>) authService.getUserList();
 //    }
     @GetMapping("/register/list")
-    @ResponseBody
     public HttpEntity<?> getList(){
         List<User> all = authRepository.findAll();
         return ResponseEntity.ok(all);
     }
 
 
+    @GetMapping("/pupils")
+    public List<ResRegister> getPupils(){
+        return authService.getPupilRole();
+    }
+    @GetMapping("/admins")
+    public List<ResRegister> getAdmins(){
+        return authService.getAdminRole();
+    }
+    @GetMapping("/teachers")
+    public List<ResRegister> getTeachers(){
+        return authService.getTeacherRole();
+    }
     @GetMapping("/isChecked/{isTrue}")
     public List<ResRegister> getCheckedTrue(@PathVariable boolean isTrue){
         return  authService.getIsChecked(isTrue);

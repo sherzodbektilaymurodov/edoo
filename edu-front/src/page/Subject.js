@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {Modal, ModalBody, ModalFooter, ModalHeader,} from "reactstrap";
 import {
     deleteSubject,
-
     getSubject,
     saveSubject
 } from "../redux/actions/AppAction";
@@ -90,11 +89,11 @@ class Subject extends Component {
                         <div className="group">
                             <input type="text" required id="name" name="name"
                                    defaultValue={currentItem.name}/>
-                            <span className="highlight"></span>
-                            <span className="bar"></span>
+                            <span className="highlight"/>
+                            <span className="bar"/>
                             <label>Name</label>
                         </div>
-                        <textarea name="description" id="description" cols="30" rows="10" required={true} placeholder="Pleace Enter Description"></textarea>
+                        <textarea name="description" id="description" cols="30" rows="10" required={true} placeholder="Pleace Enter Description"/>
 
 
 
@@ -102,7 +101,7 @@ class Subject extends Component {
                     <ModalFooter>
                         <button className="custom-btn btn-12" onClick={() => openModal('')}>Cancel</button>
                         <button className="custom-btn btn-11" onClick={saveSubjects}>Save
-                            <div className="dot"></div>
+                            <div className="dot"/>
                         </button>
                     </ModalFooter>
                 </Modal>

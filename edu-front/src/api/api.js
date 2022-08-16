@@ -1,6 +1,10 @@
 export const api = {
     subject: '/subject',
     register:'/auth/register',
-    auth:'/auth',
+    pupils:'/pupils',
+    teachers:'/teachers',
+    admin:'/admin',
+    auth:'/auth'
+
 
 }
